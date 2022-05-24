@@ -25,55 +25,70 @@ Using the HoughLinesP(),detect line co-ordinates for every points in the images.
 ## Program:
 ```python
 /*
-developed by: Dineshkumar V
-reg no : 212220230013
+developed by:Tamil Venthan R S
+reg no : 212220230054
 */
 
+
 # Read image and convert it to grayscale image
-img=cv2.imread("road.jpg",cv2.IMREAD_COLOR)
-img=cv2.resize(img,(300,200))
-g_img=cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
-cv2.imshow("Road",img)
-cv2.imshow("GrayRoad",g_img)
-cv2.waitKey(0)
-cv2.destroyAllWindows()
+import numpy as np
+import cv2
+import matplotlib.pyplot as plt
+img=cv2.imread("road.jpg",0)
+img_c=cv2.imread("road.jpg",1)
+img_c=cv2.cvtColor(img_c,cv2.COLOR_BGR2RGB)
+gray=cv2.cvtColor(img,cv2.COLOR_GRAY2RGB)
+gray = cv2.GaussianBlur(gray,(3,3),0)
+plt.figure(figsize=(13,13))
+plt.subplot(1,2,1)
+plt.imshow(img_c)
+plt.title("Original Image")
+plt.axis("off")
+plt.subplot(1,2,2)
+plt.imshow(gray)
+plt.title("Gray Image")
+plt.axis("off")
+plt.show()
 
 # Find the edges in the image using canny detector and display
-img1=cv2.GaussianBlur(g_img,(3,3),0)
-canny = cv2.Canny(g_img, 70, 150)
-cv2.imshow("Canny edge detector",canny)
-cv2.waitKey(0)
-cv2.destroyAllWindows()
+canny=cv2.Canny(gray,120,150)
+plt.imshow(canny)
+plt.title("Canny Edge Detector")
+plt.axis("off")
+plt.show()
 
 # Detect points that form a line using HoughLinesP
-lines=cv2.HoughLinesP(canny,1,np.pi/180, threshold=100, minLineLength=50,maxLineGap=250)
-
+lines=cv2.HoughLinesP(canny,1,np.pi/180,threshold=80,minLineLength=50,maxLineGap=250)
 
 # Draw lines on the image
 for line in lines:
-    x1, y1, x2, y2 = line [0] 
-    cv2.line(img,(x1, y1),(x2, y2),(0, 0, 255),3)
- 
+    x1,y1,x2,y2=line[0]
+    cv2.line(img_c,(x1,y1),(x2,y2),(255,0,0),3)
+
 # Display the result
-cv2.imshow("Hough transform",img)
-cv2.waitKey(0)
-cv2.destroyAllWindows()
+plt.imshow(img_c)
+plt.title("Result Image")
+plt.axis("off")
+plt.show()
+
 
 ```
 ## Output
 
 ### Input image and grayscale image
-<br/>![g1](https://user-images.githubusercontent.com/75235789/169962500-feecff5e-a972-408d-bd6a-dd75a2ecea45.jpg)
 
+![2022-05-24 (7)](https://user-images.githubusercontent.com/75235477/170076571-553225e9-8269-4940-8cca-41c93fc26947.png)
 
 
 ### Canny Edge detector output
-<br/>![g2](https://user-images.githubusercontent.com/75235789/169962515-ea1a1c84-d98d-4340-913d-66bc27b9afe9.jpg)
 
+![2022-05-24 (4)](https://user-images.githubusercontent.com/75235477/170076592-b69c78c8-0cc6-4b09-b582-4d25462cf3b1.png)
 
 
 ### Display the result of Hough transform
-<br/>![g3](https://user-images.githubusercontent.com/75235789/169962529-6f181531-5131-41d7-88c8-9f7156df2467.jpg)
+
+![2022-05-24 (6)](https://user-images.githubusercontent.com/75235477/170076605-667ade8d-f90f-421e-a4b4-cb577aa6420a.png)
+
 
 
 
